@@ -3,6 +3,8 @@
 namespace Brofist\ApiClient;
 
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\RequestException;
+use Psr\Http\Message\ResponseInterface;
 
 class Json implements JsonInterface
 {
@@ -85,16 +87,47 @@ class Json implements JsonInterface
      * @param string $path
      * @param array  $options
      *
+     * @throws InvalidJsonResponseBodyException
+     * @throws Exception
+     *
      * @return array
      */
     private function request($method, $path, $options)
     {
-        $uri = $this->endpoint . $path;
+        try {
+            $uri = $this->endpoint . $path;
+            $options = array_merge($options, $this->additionalOptions);
+            $response = $this->httpClient->request($method, $uri, $options);
 
-        $options = array_merge($options, $this->additionalOptions);
+            return $this->getJsonContentFromResponse($response);
+        } catch (RequestException $e) {
+            $message = $e->getMessage();
+            $data = json_decode($e->getResponse()->getBody(), true);
 
-        $response = $this->httpClient->request($method, $uri, $options);
+            if (isset($data['message'])) {
+                $message = $data['message'];
+            }
 
-        return json_decode($response->getBody(), true);
+            throw new Exception($message, null, $e);
+        }
+    }
+
+    /**
+     * @param ResponseInterface $response
+     *
+     * @throws InvalidJsonResponseBodyException
+     *
+     * @return array
+     */
+    private function getJsonContentFromResponse(ResponseInterface $response)
+    {
+        $body = $response->getBody();
+        $content = json_decode($body, true);
+
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new InvalidJsonResponseBodyException($body);
+        }
+
+        return $content;
     }
 }

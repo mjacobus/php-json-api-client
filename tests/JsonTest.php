@@ -2,12 +2,19 @@
 
 namespace BrofistTest\ApiClient;
 
+use Brofist\ApiClient\Exception;
 use Brofist\ApiClient\Json;
 use Brofist\ApiClient\JsonInterface;
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request;
 use PHPUnit_Framework_TestCase;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @SuppressWarnings(PHPMD)
+ */
 class JsonTest extends PHPUnit_Framework_TestCase
 {
     /** @var Json */
@@ -176,6 +183,47 @@ class JsonTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
+     */
+    public function convertsGuzzleResponseExceptionsIntoFriendlyClientExceptions()
+    {
+        $request = $this->prophesize(RequestInterface::class);
+        $response = $this->getMockResponse(['message' => 'theMessage']);
+        $response->getStatusCode()->willReturn(200);
+
+        $originalException = new RequestException(
+            'exception message',
+            $request->reveal(),
+            $response->reveal()
+        );
+
+        $this->mockClient()
+            ->request('GET', $this->url('/foo'), ['query' => []])
+            ->willThrow($originalException);
+
+        try {
+            $this->client->get('/foo');
+            $this->fail('Should have thrown exception');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(Exception::class, $e);
+            $this->assertEquals('theMessage', $e->getMessage());
+            $this->assertSame($originalException, $e->getPrevious());
+        }
+    }
+
+    /**
+     * @test
+     * @expectedException \Brofist\ApiClient\InvalidJsonResponseBodyException
+     */
+    public function throwsInvalidJsonResponse()
+    {
+        $this->mockClient()->request('GET', $this->url('/foo'), ['query' => []])
+            ->willReturn($this->mockResponseBody('invalid')->reveal());
+
+        $this->client->get('/foo');
+    }
+
+    /**
      * @return \Prophecy\Prophecy\ObjectProphecy
      */
     private function mockClient()
@@ -199,10 +247,20 @@ class JsonTest extends PHPUnit_Framework_TestCase
 
     private function fooBarResponse()
     {
-        $response = $this->prophesize(ResponseInterface::class);
-        $response->getBody()->willReturn('{"foo":"bar"}');
+        return $this->mockResponseBody('{"foo":"bar"}')->reveal();
+    }
 
-        return $response->reveal();
+    private function mockResponseBody($responseBody)
+    {
+        $response = $this->prophesize(ResponseInterface::class);
+        $response->getBody()->willReturn($responseBody);
+
+        return $response;
+    }
+
+    private function getMockResponse(array $data = [])
+    {
+        return $this->mockResponseBody(json_encode($data));
     }
 
     /**
@@ -212,7 +270,6 @@ class JsonTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(['foo' => 'bar'], $data);
     }
-
 
     private function setClient(array $params = [])
     {

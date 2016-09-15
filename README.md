@@ -8,8 +8,13 @@ Code information:
 [![Build Status](https://travis-ci.org/mjacobus/php-json-api-client.png?branch=master)](https://travis-ci.org/mjacobus/php-json-api-client)
 [![Coverage Status](https://coveralls.io/repos/mjacobus/php-json-api-client/badge.png)](https://coveralls.io/r/mjacobus/php-json-api-client)
 [![Code Climate](https://codeclimate.com/github/mjacobus/php-json-api-client.png)](https://codeclimate.com/github/mjacobus/php-json-api-client)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mjacobus/php-json-api-client/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mjacobus/php-json-api-client/?branch=master)
 [![StyleCI](https://styleci.io/repos/68288559/shield)](https://styleci.io/repos/68288559)
+
+Scrutinizer
+
+[![Code Coverage](https://scrutinizer-ci.com/g/mjacobus/php-json-api-client/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mjacobus/php-json-api-client/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mjacobus/php-json-api-client/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mjacobus/php-json-api-client/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/mjacobus/php-json-api-client/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mjacobus/php-json-api-client/build-status/master)
 
 Package information:
 
@@ -17,7 +22,8 @@ Package information:
 [![Total Downloads](https://poser.pugx.org/brofist/json-api-client/downloads.svg)](https://packagist.org/packages/brofist/json-api-client)
 [![Latest Unstable Version](https://poser.pugx.org/brofist/json-api-client/v/unstable.svg)](https://packagist.org/packages/brofist/json-api-client)
 [![License](https://poser.pugx.org/brofist/json-api-client/license.svg)](https://packagist.org/packages/brofist/json-api-client)
-[![Dependency Status](https://gemnasium.com/brofist/json-api-client.png)](https://gemnasium.com/brofist/json-api-client)
+[![Dependency Status](https://gemnasium.com/badges/github.com/mjacobus/php-json-api-client.svg)](https://gemnasium.com/github.com/mjacobus/php-json-api-client)
+
 
 
 ## Installing
@@ -43,6 +49,14 @@ $client = new Json([
 
 $resources = $client->get('/resources', [
     'limit' => 100,
+]);
+
+$resources = $client->put('/resources/1', [
+    'name' => 'foo',
+]);
+
+$resources = $client->post('/resources', [
+    'name' => 'foo',
 ]);
 ```
 

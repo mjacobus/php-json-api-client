@@ -36,6 +36,10 @@ class Json
             $this->additionalOptions['auth'] = [$options['authToken'], ''];
         }
 
+        if (isset($options['basicAuth'])) {
+            $this->additionalOptions['auth'] = $options['basicAuth'];
+        }
+
         if (!isset($options['httpClient'])) {
             $options['httpClient'] = new HttpClient();
         }

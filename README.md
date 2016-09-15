@@ -37,10 +37,8 @@ use Brofist\ApiClient\Json;
 
 $client = new Json([
     'endpoint' => 'http://foo.bar/v1/blah',
-    'basicAuth' => [
-      'username' => 'username',
-      'password' => 'username',
-    ],
+    // optional
+    'basicAuth' => ['username', 'password'],
 ]);
 
 $resources = $client->get('/resources', [

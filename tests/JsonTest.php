@@ -88,6 +88,29 @@ class JsonTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function canMakeGetRequestsWithBasicAuthentication()
+    {
+        $this->setClient(['basicAuth' => ['username', 'password']]);
+
+        $query = ['foo' => 'bar'];
+
+        $this->mockClient()->request(
+            'GET',
+            $this->url('/foo'),
+            [
+                'auth'  => ['username', 'password'],
+                'query' => $query,
+            ]
+        )->willReturn($this->fooBarResponse());
+
+        $data = $this->client->get('/foo', $query);
+
+        $this->assertFooBarResponse($data);
+    }
+
+    /**
+     * @test
+     */
     public function canMakePostRequests()
     {
         $postData = ['foo' => 'bar'];

@@ -1,10 +1,10 @@
 <?php
 
-namespace Lever\Api;
+namespace Brofist\ApiClient;
 
 use GuzzleHttp\Client as HttpClient;
 
-class Client
+class Json
 {
     /**
      * @var HttpClient
@@ -14,31 +14,37 @@ class Client
     /**
      * @var string
      */
-    private $endpoint = 'https://api.lever.co/v1';
+    private $endpoint = '';
 
     /**
-     * @var string
+     * @var array
      */
-    private $authToken;
+    private $additionalOptions = [];
 
     /**
      * @param array $options
      */
     public function __construct(array $options = [])
     {
-        if (isset($options['endpoint'])) {
-            $this->endpoint = trim($options['endpoint'], '/');
+        if (!isset($options['endpoint'])) {
+            throw new \InvalidArgumentException("Endpoint not set");
         }
+
+        $this->endpoint = trim($options['endpoint'], '/');
 
         if (isset($options['authToken'])) {
-            $this->authToken = $options['authToken'];
+            $this->additionalOptions['auth'] = [$options['authToken'], ''];
         }
 
-        if (isset($options['httpClient'])) {
-            $this->httpClient = $options['httpClient'];
-        } else {
-            $this->httpClient = new HttpClient();
+        if (isset($options['basicAuth'])) {
+            $this->additionalOptions['auth'] = $options['basicAuth'];
         }
+
+        if (!isset($options['httpClient'])) {
+            $options['httpClient'] = new HttpClient();
+        }
+
+        $this->httpClient = $options['httpClient'];
     }
 
     /**
@@ -93,8 +99,7 @@ class Client
     {
         $uri = $this->endpoint . $path;
 
-        $authOption = ['auth' => [$this->authToken, '']];
-        $options = array_merge($options, $authOption);
+        $options = array_merge($options, $this->additionalOptions);
 
         $response = $this->httpClient->request($method, $uri, $options);
 

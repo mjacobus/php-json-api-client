@@ -27,8 +27,8 @@ install:
 script:
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then vendor/bin/phpunit ; fi
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then vendor/bin/phpunit --coverage-clover=./build/logs/clover.xml; fi
-  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./bin/php-cs-fix.sh src true  ; fi
-  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./bin/php-cs-fix.sh tests true  ; fi
+  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/bro-code fix src   ; fi
+  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/bro-code fix tests ; fi
 
 after_script:
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/coveralls ; fi

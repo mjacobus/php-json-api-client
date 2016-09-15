@@ -1,23 +1,23 @@
-Lever Client
+Brofist Json Client
 ================
 
-This is a WIP Lever client. Documentation [here](https://hire.lever.co/developer/documentation).
+Simple wrapper for Guzzle.
 
 Code information:
 
-[![Build Status](https://travis-ci.org/mjacobus/lever-api-client.png?branch=master)](https://travis-ci.org/mjacobus/lever-api-client)
-[![Coverage Status](https://coveralls.io/repos/mjacobus/lever-api-client/badge.png)](https://coveralls.io/r/mjacobus/lever-api-client)
-[![Code Climate](https://codeclimate.com/github/mjacobus/lever-api-client.png)](https://codeclimate.com/github/mjacobus/lever-api-client)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mjacobus/lever-api-client/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mjacobus/lever-api-client/?branch=master)
-[![StyleCI](https://styleci.io/repos/45260702/shield)](https://styleci.io/repos/45260702)
+[![Build Status](https://travis-ci.org/mjacobus/php-json-api-client.png?branch=master)](https://travis-ci.org/mjacobus/php-json-api-client)
+[![Coverage Status](https://coveralls.io/repos/mjacobus/php-json-api-client/badge.png)](https://coveralls.io/r/mjacobus/php-json-api-client)
+[![Code Climate](https://codeclimate.com/github/mjacobus/php-json-api-client.png)](https://codeclimate.com/github/mjacobus/php-json-api-client)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mjacobus/php-json-api-client/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mjacobus/php-json-api-client/?branch=master)
+[![StyleCI](https://styleci.io/repos/68288559/shield)](https://styleci.io/repos/68288559)
 
 Package information:
 
-[![Latest Stable Version](https://poser.pugx.org/mjacobus/lever-api-client/v/stable.svg)](https://packagist.org/packages/mjacobus/lever-api-client)
-[![Total Downloads](https://poser.pugx.org/mjacobus/lever-api-client/downloads.svg)](https://packagist.org/packages/mjacobus/lever-api-client)
-[![Latest Unstable Version](https://poser.pugx.org/mjacobus/lever-api-client/v/unstable.svg)](https://packagist.org/packages/mjacobus/lever-api-client)
-[![License](https://poser.pugx.org/mjacobus/lever-api-client/license.svg)](https://packagist.org/packages/mjacobus/lever-api-client)
-[![Dependency Status](https://gemnasium.com/mjacobus/lever-api-client.png)](https://gemnasium.com/mjacobus/lever-api-client)
+[![Latest Stable Version](https://poser.pugx.org/brofist/json-api-client/v/stable.svg)](https://packagist.org/packages/brofist/json-api-client)
+[![Total Downloads](https://poser.pugx.org/brofist/json-api-client/downloads.svg)](https://packagist.org/packages/brofist/json-api-client)
+[![Latest Unstable Version](https://poser.pugx.org/brofist/json-api-client/v/unstable.svg)](https://packagist.org/packages/brofist/json-api-client)
+[![License](https://poser.pugx.org/brofist/json-api-client/license.svg)](https://packagist.org/packages/brofist/json-api-client)
+[![Dependency Status](https://gemnasium.com/brofist/json-api-client.png)](https://gemnasium.com/brofist/json-api-client)
 
 
 ## Installing
@@ -27,19 +27,21 @@ Package information:
 Append the lib to your requirements key in your composer.json.
 
 ```bash
-composer require mjacobus/lever-api-client
+composer require mjacobus/php-json-api-client
 ```
 
 ## Usage
 
 ```php
-use Lever\Api\Client;
+use Brofist\ApiClient\Json;
 
-$client = new Client([
-    'authToken' => '{myApiToken}',
+$client = new Json([
+    'endpoint' => 'http://foo.bar/v1/blah',
+    // optional
+    'basicAuth' => ['username', 'password'],
 ]);
 
-$postings = $client->get('/postings', [
+$resources = $client->get('/resources', [
     'limit' => 100,
 ]);
 ```
@@ -47,7 +49,7 @@ $postings = $client->get('/postings', [
 
 ## Issues/Features proposals
 
-[Here](https://github.com/mjacobus/lever-api-client/issues) is the issue tracker.
+[Here](https://github.com/mjacobus/php-json-api-client/issues) is the issue tracker.
 
 ## Contributing
 
@@ -69,12 +71,8 @@ Only tested code will be accepted. Please follow fix the style guide.
 
 ```bash
 # Fixes code
-./bin/php-cs-fix.sh
-
-# outputs error
-./bin/php-cs-fix.sh src true
-./bin/php-cs-fix.sh test true
-
+./vendor/bin/broc-code fix src
+./vendor/bin/broc-code fix tests
 ```
 
 ## Lincense

@@ -22,7 +22,7 @@ interface JsonInterface
      *
      * @return array
      */
-    public function post($endpoint, array $data = []);
+    public function post($path, array $data = []);
 
     /**
      * @param string $path

@@ -52,6 +52,27 @@ class JsonTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function canResolvePathWithNonLeadingSlash()
+    {
+        $query = ['foo' => 'bar'];
+
+        $this->mockClient()
+            ->request(
+                'GET',
+                $this->url('/foo'),
+                ['query' => $query]
+            )
+            ->willReturn($this->fooBarResponse());
+
+        $data = $this->client->get('foo', $query);
+
+        $this->assertFooBarResponse($data);
+    }
+
+
+    /**
+     * @test
+     */
     public function canMutateEndpoint()
     {
         $this->client = new Json(['endpoint' => 'https://test.foo.bar/v3/']);

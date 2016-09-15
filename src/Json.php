@@ -92,10 +92,10 @@ class Json implements JsonInterface
      *
      * @return array
      */
-    private function request($method, $path, $options)
+    protected function request($method, $path, $options)
     {
         try {
-            $uri = $this->endpoint . $path;
+            $uri = $this->endpoint . '/' .  ltrim($path, '/');
             $options = array_merge($options, $this->additionalOptions);
             $response = $this->httpClient->request($method, $uri, $options);
 

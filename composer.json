@@ -1,6 +1,6 @@
 {
-    "name": "mjacobus/lever-api-client",
-    "description": "Api client for lever",
+    "name": "brofist/json-api-client",
+    "description": "A simple Json Api Client",
     "license": "MIT",
     "authors": [
         {
@@ -16,9 +16,10 @@
         "phpunit/phpunit": "~4.8.16",
         "fabpot/php-cs-fixer": "1.7.*",
         "symfony/console": "~2.7",
-        "satooshi/php-coveralls": "dev-master"
+        "satooshi/php-coveralls": "dev-master",
+        "bro/code": "^0.1.5"
     },
     "autoload": {
-        "psr-4": {"Lever\\Api\\": "src/"}
+        "psr-4": {"Brofist\\ApiClient\\": "src/"}
     }
 }

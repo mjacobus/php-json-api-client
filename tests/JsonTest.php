@@ -1,39 +1,36 @@
 <?php
 
-namespace LeverTest\Api;
+namespace BrofistTest\ApiClient;
 
+use Brofist\ApiClient\Json;
 use GuzzleHttp\Client as HttpClient;
-use Lever\Api\Client;
 use PHPUnit_Framework_TestCase;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * LeverTest\Api\ClientTest
- */
-class ClientTest extends PHPUnit_Framework_TestCase
+class JsonTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Client */
+    /** @var Json */
     protected $client;
 
     /** @var HttpClient | \Prophecy\Prophecy\ObjectProphecy */
     protected $mockClient;
 
-    public function setUp()
+    /**
+     * @before
+     */
+    public function initialize()
     {
-        $this->client = new Client(
-            [
-                'authToken'  => 'myToken',
-                'httpClient' => $this->mockClient()->reveal(),
-            ]
-        );
+        $this->setClient();
     }
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Endpoint not set
      */
-    public function hasDefaultEndpoint()
+    public function throwsExceptionWhenNoEndpointIsGiven()
     {
-        $this->assertEquals('https://api.lever.co/v1', $this->client->getEndpoint());
+        new Json();
     }
 
     /**
@@ -41,8 +38,8 @@ class ClientTest extends PHPUnit_Framework_TestCase
      */
     public function canMutateEndpoint()
     {
-        $this->client = new Client(['endpoint' => 'https://test.lever.co/v2/']);
-        $this->assertEquals('https://test.lever.co/v2', $this->client->getEndpoint());
+        $this->client = new Json(['endpoint' => 'https://test.foo.bar/v3/']);
+        $this->assertEquals('https://test.foo.bar/v3', $this->client->getEndpoint());
     }
 
     /**
@@ -50,6 +47,28 @@ class ClientTest extends PHPUnit_Framework_TestCase
      */
     public function canMakeGetRequests()
     {
+        $query = ['foo' => 'bar'];
+
+        $this->mockClient()->request(
+            'GET',
+            $this->url('/foo'),
+            [
+                'query' => $query,
+            ]
+        )->willReturn($this->fooBarResponse());
+
+        $data = $this->client->get('/foo', $query);
+
+        $this->assertFooBarResponse($data);
+    }
+
+    /**
+     * @test
+     */
+    public function canMakeGetRequestsWithAuthentication()
+    {
+        $this->setClient(['authToken' => 'myToken']);
+
         $query = ['foo' => 'bar'];
 
         $this->mockClient()->request(
@@ -77,7 +96,6 @@ class ClientTest extends PHPUnit_Framework_TestCase
             'POST',
             $this->url('/foo'),
             [
-                'auth'        => ['myToken', ''],
                 'form_params' => $postData,
             ]
         )->willReturn($this->fooBarResponse());
@@ -98,7 +116,6 @@ class ClientTest extends PHPUnit_Framework_TestCase
             'PUT',
             $this->url('/foo'),
             [
-                'auth' => ['myToken', ''],
                 'json' => $putData,
             ]
         )->willReturn($this->fooBarResponse());
@@ -127,7 +144,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
      */
     private function url($path = '/')
     {
-        return 'https://api.lever.co/v1' . $path;
+        return 'https://endpoint/v1' . $path;
     }
 
     private function fooBarResponse()
@@ -144,5 +161,15 @@ class ClientTest extends PHPUnit_Framework_TestCase
     private function assertFooBarResponse($data)
     {
         $this->assertEquals(['foo' => 'bar'], $data);
+    }
+
+
+    private function setClient(array $params = [])
+    {
+        $default = [
+            'endpoint'   => 'https://endpoint/v1/',
+            'httpClient' => $this->mockClient()->reveal(),
+        ];
+        $this->client = new Json(array_merge($default, $params));
     }
 }

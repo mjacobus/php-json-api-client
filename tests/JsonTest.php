@@ -3,6 +3,7 @@
 namespace BrofistTest\ApiClient;
 
 use Brofist\ApiClient\Json;
+use Brofist\ApiClient\JsonInterface;
 use GuzzleHttp\Client as HttpClient;
 use PHPUnit_Framework_TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -31,6 +32,14 @@ class JsonTest extends PHPUnit_Framework_TestCase
     public function throwsExceptionWhenNoEndpointIsGiven()
     {
         new Json();
+    }
+
+    /**
+     * @test
+     */
+    public function implementsTheCorrectInterface()
+    {
+        $this->assertInstanceOf(JsonInterface::class, $this->client);
     }
 
     /**
@@ -146,6 +155,24 @@ class JsonTest extends PHPUnit_Framework_TestCase
         $data = $this->client->put('/foo', $putData);
 
         $this->assertFooBarResponse($data);
+    }
+
+    /**
+     * @test
+     * @expectedException \BadMethodCallException
+     */
+    public function deleteIsNotImplemented()
+    {
+        $this->client->delete('endpoint');
+    }
+
+    /**
+     * @test
+     * @expectedException \BadMethodCallException
+     */
+    public function patchIsNotImplemented()
+    {
+        $this->client->patch('endpoint');
     }
 
     /**

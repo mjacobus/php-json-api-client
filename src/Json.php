@@ -4,7 +4,7 @@ namespace Brofist\ApiClient;
 
 use GuzzleHttp\Client as HttpClient;
 
-class Json
+class Json implements JsonInterface
 {
     /**
      * @var HttpClient
@@ -55,37 +55,29 @@ class Json
         return $this->endpoint;
     }
 
-    /**
-     * @param string $path
-     * @param array  $params
-     *
-     * @return array
-     */
     public function get($path, array $params = [])
     {
         return $this->request('GET', $path, ['query' => $params]);
     }
 
-    /**
-     * @param string $path
-     * @param array  $postData
-     *
-     * @return array
-     */
-    public function post($path, array $postData)
+    public function post($path, array $postData = [])
     {
         return $this->request('POST', $path, ['form_params' => $postData]);
     }
 
-    /**
-     * @param string $path
-     * @param array  $putData
-     *
-     * @return array
-     */
-    public function put($path, array $putData)
+    public function put($path, array $putData = [])
     {
         return $this->request('PUT', $path, ['json' => $putData]);
+    }
+
+    public function delete($endpoint, array $data = [])
+    {
+        throw new \BadMethodCallException("Not implemented yet");
+    }
+
+    public function patch($endpoint, array $data = [])
+    {
+        throw new \BadMethodCallException("Not implemented yet");
     }
 
     /**

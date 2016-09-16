@@ -14,7 +14,6 @@ matrix:
         - EXECUTE_TEST_COVERALLS=true
         - EXECUTE_CS_CHECK=true
     - php: 7
-    - php: nightly
     - php: hhvm
 
 before_install:

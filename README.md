@@ -33,7 +33,7 @@ Package information:
 Append the lib to your requirements key in your composer.json.
 
 ```bash
-composer require mjacobus/php-json-api-client
+composer require brofist/json-api-client
 ```
 
 ## Usage

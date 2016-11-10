@@ -64,7 +64,7 @@ class Json implements JsonInterface
 
     public function post($path, array $postData = [])
     {
-        return $this->request('POST', $path, ['form_params' => $postData]);
+        return $this->request('POST', $path, ['json' => $postData]);
     }
 
     public function put($path, array $putData = [])

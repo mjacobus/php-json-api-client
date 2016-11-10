@@ -156,7 +156,7 @@ class JsonTest extends PHPUnit_Framework_TestCase
             'POST',
             $this->url('/foo'),
             [
-                'form_params' => $postData,
+                'json' => $postData,
             ]
         )->willReturn($this->fooBarResponse());
 

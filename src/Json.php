@@ -57,27 +57,27 @@ class Json implements JsonInterface
         return $this->endpoint;
     }
 
-    public function get($path, array $params = [])
+    public function get($path, array $params = [], array $headers = [])
     {
-        return $this->request('GET', $path, ['query' => $params]);
+        return $this->request('GET', $path, ['query' => $params, 'headers' => $headers]);
     }
 
-    public function post($path, array $postData = [])
+    public function post($path, array $postData = [], array $headers = [])
     {
-        return $this->request('POST', $path, ['json' => $postData]);
+        return $this->request('POST', $path, ['json' => $postData, 'headers' => $headers]);
     }
 
-    public function put($path, array $putData = [])
+    public function put($path, array $putData = [], array $headers = [])
     {
-        return $this->request('PUT', $path, ['json' => $putData]);
+        return $this->request('PUT', $path, ['json' => $putData, 'headers' => $headers]);
     }
 
-    public function delete($endpoint, array $data = [])
+    public function delete($endpoint, array $data = [], array $headers = [])
     {
         throw new \BadMethodCallException("Not implemented yet");
     }
 
-    public function patch($endpoint, array $data = [])
+    public function patch($endpoint, array $data = [], array $headers = [])
     {
         throw new \BadMethodCallException("Not implemented yet");
     }
@@ -96,7 +96,7 @@ class Json implements JsonInterface
     {
         try {
             $uri = $this->endpoint . '/' .  ltrim($path, '/');
-            $options = array_merge($options, $this->additionalOptions);
+            $options = array_merge(array_filter($options), $this->additionalOptions);
             $response = $this->httpClient->request($method, $uri, $options);
 
             return $this->getJsonContentFromResponse($response);

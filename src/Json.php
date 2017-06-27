@@ -57,27 +57,27 @@ class Json implements JsonInterface
         return $this->endpoint;
     }
 
-    public function get($path, array $params = [], array $headers = [])
+    public function get($path, array $params = [], array $options = [])
     {
-        return $this->request('GET', $path, ['query' => $params, 'headers' => $headers]);
+        return $this->request('GET', $path, array_merge($options, ['query' => $params]));
     }
 
-    public function post($path, array $postData = [], array $headers = [])
+    public function post($path, array $postData = [], array $options = [])
     {
-        return $this->request('POST', $path, ['json' => $postData, 'headers' => $headers]);
+        return $this->request('POST', $path, array_merge($options, ['json' => $postData]));
     }
 
-    public function put($path, array $putData = [], array $headers = [])
+    public function put($path, array $putData = [], array $options = [])
     {
-        return $this->request('PUT', $path, ['json' => $putData, 'headers' => $headers]);
+        return $this->request('PUT', $path, array_merge($options, ['json' => $putData]));
     }
 
-    public function delete($endpoint, array $data = [], array $headers = [])
+    public function delete($endpoint, array $data = [], array $options = [])
     {
         throw new \BadMethodCallException("Not implemented yet");
     }
 
-    public function patch($endpoint, array $data = [], array $headers = [])
+    public function patch($endpoint, array $data = [], array $options = [])
     {
         throw new \BadMethodCallException("Not implemented yet");
     }
@@ -96,7 +96,7 @@ class Json implements JsonInterface
     {
         try {
             $uri = $this->endpoint . '/' .  ltrim($path, '/');
-            $options = array_merge(array_filter($options), $this->additionalOptions);
+            $options = array_merge($options, $this->additionalOptions);
             $response = $this->httpClient->request($method, $uri, $options);
 
             return $this->getJsonContentFromResponse($response);

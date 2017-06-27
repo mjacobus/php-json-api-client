@@ -219,7 +219,7 @@ class JsonTest extends PHPUnit_Framework_TestCase
         );
 
         $this->mockClient()
-            ->request('GET', $this->url('/foo'), [])
+            ->request('GET', $this->url('/foo'), ["query" => []])
             ->willThrow($originalException);
 
         try {
@@ -238,7 +238,7 @@ class JsonTest extends PHPUnit_Framework_TestCase
      */
     public function throwsInvalidJsonResponse()
     {
-        $this->mockClient()->request('GET', $this->url('/foo'), [])
+        $this->mockClient()->request('GET', $this->url('/foo'), ["query" => []])
             ->willReturn($this->mockResponseBody('invalid')->reveal());
 
         $this->client->get('/foo');
@@ -249,10 +249,10 @@ class JsonTest extends PHPUnit_Framework_TestCase
      */
     public function passesOnHeaders()
     {
-        $this->mockClient()->request('GET', $this->url('/foo'), ['headers' => ['Content-Type' => 'application/json; charset=utf-8']])
+        $this->mockClient()->request('GET', $this->url('/foo'), ['headers' => ['Content-Type' => 'application/json; charset=utf-8'], "query" => []])
             ->willReturn($this->fooBarResponse());
 
-        $data = $this->client->get('/foo', [], ['Content-Type' => 'application/json; charset=utf-8']);
+        $data = $this->client->get('/foo', [], ['headers' => ['Content-Type' => 'application/json; charset=utf-8']]);
 
         $this->assertFooBarResponse($data);
     }

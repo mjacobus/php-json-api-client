@@ -57,27 +57,27 @@ class Json implements JsonInterface
         return $this->endpoint;
     }
 
-    public function get($path, array $params = [])
+    public function get($path, array $params = [], array $options = [])
     {
-        return $this->request('GET', $path, ['query' => $params]);
+        return $this->request('GET', $path, array_merge($options, ['query' => $params]));
     }
 
-    public function post($path, array $postData = [])
+    public function post($path, array $postData = [], array $options = [])
     {
-        return $this->request('POST', $path, ['json' => $postData]);
+        return $this->request('POST', $path, array_merge($options, ['json' => $postData]));
     }
 
-    public function put($path, array $putData = [])
+    public function put($path, array $putData = [], array $options = [])
     {
-        return $this->request('PUT', $path, ['json' => $putData]);
+        return $this->request('PUT', $path, array_merge($options, ['json' => $putData]));
     }
 
-    public function delete($endpoint, array $data = [])
+    public function delete($endpoint, array $data = [], array $options = [])
     {
         throw new \BadMethodCallException("Not implemented yet");
     }
 
-    public function patch($endpoint, array $data = [])
+    public function patch($endpoint, array $data = [], array $options = [])
     {
         throw new \BadMethodCallException("Not implemented yet");
     }

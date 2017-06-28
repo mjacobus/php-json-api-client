@@ -85,8 +85,8 @@ Only tested code will be accepted. Please follow fix the style guide.
 
 ```bash
 # Fixes code
-./vendor/bin/broc-code fix src
-./vendor/bin/broc-code fix tests
+./vendor/bin/bro-code fix src
+./vendor/bin/bro-code fix tests
 ```
 
 ## Lincense

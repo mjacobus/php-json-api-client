@@ -63,7 +63,7 @@ $resources = $client->post('/resources', [
 // with optionally supplied custom options per-request:
 $resources = $client->post(
     '/resources',
-    ['name' => 'foo',],
+    ['name' => 'foo'],
     ['headers' => ['X-Request-Token' => 'e4d909c290d0fb1ca068ffaddf22cbd0']]
 );
 ```

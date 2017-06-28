@@ -251,7 +251,7 @@ class JsonTest extends PHPUnit_Framework_TestCase
     {
         $options = [
             'headers' => ['Content-Type' => 'application/json; charset=utf-8'],
-            'query' => []
+            'query'   => []
         ];
         $this->mockClient()->request('GET', $this->url('/foo'), $options)
             ->willReturn($this->fooBarResponse());

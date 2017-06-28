@@ -249,7 +249,11 @@ class JsonTest extends PHPUnit_Framework_TestCase
      */
     public function passesOnHeaders()
     {
-        $this->mockClient()->request('GET', $this->url('/foo'), ['headers' => ['Content-Type' => 'application/json; charset=utf-8'], "query" => []])
+        $options = [
+            'headers' => ['Content-Type' => 'application/json; charset=utf-8'],
+            'query' => []
+        ];
+        $this->mockClient()->request('GET', $this->url('/foo'), $options)
             ->willReturn($this->fooBarResponse());
 
         $data = $this->client->get('/foo', [], ['headers' => ['Content-Type' => 'application/json; charset=utf-8']]);

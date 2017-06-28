@@ -6,8 +6,8 @@ interface JsonInterface
 {
     /**
      * @param string $path
-     * @param array $data
-     * @param array $options additional options to send with the request, if any
+     * @param array  $data
+     * @param array  $options additional options to send with the request, if any
      *
      * @throws Exception
      *
@@ -17,8 +17,8 @@ interface JsonInterface
 
     /**
      * @param string $path
-     * @param array $data
-     * @param array $options additional options to send with the request, if any
+     * @param array  $data
+     * @param array  $options additional options to send with the request, if any
      *
      * @throws Exception
      *
@@ -28,8 +28,8 @@ interface JsonInterface
 
     /**
      * @param string $path
-     * @param array $data
-     * @param array $options additional options to send with the request, if any
+     * @param array  $data
+     * @param array  $options additional options to send with the request, if any
      *
      * @throws Exception
      *
@@ -39,8 +39,8 @@ interface JsonInterface
 
     /**
      * @param string $path
-     * @param array $data
-     * @param array $options additional options to send with the request, if any
+     * @param array  $data
+     * @param array  $options additional options to send with the request, if any
      *
      * @throws Exception
      *
@@ -50,8 +50,8 @@ interface JsonInterface
 
     /**
      * @param string $path
-     * @param array $data
-     * @param array $options additional options to send with the request, if any
+     * @param array  $data
+     * @param array  $options additional options to send with the request, if any
      *
      * @throws Exception
      *

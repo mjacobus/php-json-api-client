@@ -29,7 +29,7 @@ class Json implements JsonInterface
     public function __construct(array $options = [])
     {
         if (!isset($options['endpoint'])) {
-            throw new \InvalidArgumentException("Endpoint not set");
+            throw new \InvalidArgumentException('Endpoint not set');
         }
 
         $this->endpoint = trim($options['endpoint'], '/');
@@ -74,12 +74,12 @@ class Json implements JsonInterface
 
     public function delete($endpoint, array $data = [], array $options = [])
     {
-        throw new \BadMethodCallException("Not implemented yet");
+        throw new \BadMethodCallException('Not implemented yet');
     }
 
     public function patch($endpoint, array $data = [], array $options = [])
     {
-        throw new \BadMethodCallException("Not implemented yet");
+        throw new \BadMethodCallException('Not implemented yet');
     }
 
     /**

@@ -7,7 +7,6 @@ use Brofist\ApiClient\Json;
 use Brofist\ApiClient\JsonInterface;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Request;
 use PHPUnit_Framework_TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -68,7 +67,6 @@ class JsonTest extends PHPUnit_Framework_TestCase
 
         $this->assertFooBarResponse($data);
     }
-
 
     /**
      * @test
@@ -219,7 +217,7 @@ class JsonTest extends PHPUnit_Framework_TestCase
         );
 
         $this->mockClient()
-            ->request('GET', $this->url('/foo'), ["query" => []])
+            ->request('GET', $this->url('/foo'), ['query' => []])
             ->willThrow($originalException);
 
         try {
@@ -238,7 +236,7 @@ class JsonTest extends PHPUnit_Framework_TestCase
      */
     public function throwsInvalidJsonResponse()
     {
-        $this->mockClient()->request('GET', $this->url('/foo'), ["query" => []])
+        $this->mockClient()->request('GET', $this->url('/foo'), ['query' => []])
             ->willReturn($this->mockResponseBody('invalid')->reveal());
 
         $this->client->get('/foo');
@@ -251,7 +249,7 @@ class JsonTest extends PHPUnit_Framework_TestCase
     {
         $options = [
             'headers' => ['Content-Type' => 'application/json; charset=utf-8'],
-            'query'   => []
+            'query'   => [],
         ];
         $this->mockClient()->request('GET', $this->url('/foo'), $options)
             ->willReturn($this->fooBarResponse());

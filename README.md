@@ -46,20 +46,27 @@ $client = new Json([
     // optional
     'basicAuth' => ['username', 'password'],
 ]);
-
+ 
+// basic usage:
 $resources = $client->get('/resources', [
     'limit' => 100,
 ]);
-
+ 
 $resources = $client->put('/resources/1', [
     'name' => 'foo',
 ]);
-
+ 
 $resources = $client->post('/resources', [
     'name' => 'foo',
 ]);
+ 
+// with optionally supplied custom options per-request:
+$resources = $client->post(
+    '/resources',
+    ['name' => 'foo',],
+    ['headers' => ['X-Request-Token' => 'e4d909c290d0fb1ca068ffaddf22cbd0']]
+);
 ```
-
 
 ## Issues/Features proposals
 
@@ -89,7 +96,7 @@ Only tested code will be accepted. Please follow fix the style guide.
 ./vendor/bin/bro-code fix tests
 ```
 
-## Lincense
+## License
 
 This software is distributed under the [MIT](MIT-LICENSE) license.
 
